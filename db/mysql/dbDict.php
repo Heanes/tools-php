@@ -96,7 +96,7 @@ if (!isset($_GET['config']) && !isset($_GET['postConfig']) && !isset($_GET['mysq
         }
 
         $sql = "SELECT T.TABLE_NAME AS tableName, TABLE_COMMENT as tableComment, COLUMN_NAME as columnName, COLUMN_TYPE as columnType, COLUMN_COMMENT as columnComment, IS_NULLABLE as isNullable, COLUMN_KEY as columnKey, EXTRA as extra, COLUMN_DEFAULT as columnDefault,"
-                ." CHARACTER_SET_NAME as characterSetName, TABLE_COLLATION as tableCollation, COLLATION_NAME as collationName, ORDINAL_POSITION as ordinalPosition, AUTO_INCREMENT as autoIncrement, CREATE_TIME as createTime"
+                ." CHARACTER_SET_NAME as characterSetName, TABLE_COLLATION as tableCollation, COLLATION_NAME as collationName, ORDINAL_POSITION as ordinalPosition, AUTO_INCREMENT as autoIncrement, CREATE_TIME as createTime, UPDATE_TIME as updateTime"
                 ." FROM INFORMATION_SCHEMA.TABLES AS T"
                 ." JOIN INFORMATION_SCHEMA.COLUMNS AS C ON T.TABLE_SCHEMA = C.TABLE_SCHEMA AND C.TABLE_NAME = T.TABLE_NAME"
                 ." WHERE T.TABLE_SCHEMA = '".$_CFG['_db_config']['db_database']."'ORDER BY T.TABLE_NAME, ORDINAL_POSITION";
@@ -111,7 +111,9 @@ if (!isset($_GET['config']) && !isset($_GET['postConfig']) && !isset($_GET['mysq
             $tables[] = [
                 'tableName' => $index,
                 'tableComment' => $item[0]['tableComment'],
-                'columns' => $item
+                'columns' => $item,
+                'createTime' => $item[0]['createTime'],
+                'updateTime' => $item[0]['updateTime']
             ];
         }
         if(isset($_GET['json'])){
@@ -244,13 +246,17 @@ a.change-db{color:#fff;}
 .table-name-title-block .table-name-title.lap-off{border-bottom:1px solid #ddd;}
 .table-name-title-block .table-name-title .lap-icon{padding:0 10px;}
 .table-name-title-block .table-name-title .table-name-anchor{display:block;padding:10px 0;}
+.table-one-content{position:relative;}
 .ul-sort-title{margin:0 0 -1px;padding:0;font-size:0;z-index:3;}
 ul.ul-sort-title,ul.ul-sort-title li{list-style:none;}
 .ul-sort-title li{display:inline-block;background:#fff;padding:10px 20px;border:1px solid #ddd;border-right:0;color:#333;cursor:pointer;font-size:13px;}
 .ul-sort-title li.active{background:#f0f0f0;border-bottom-color:#f0f0f0;}
 .ul-sort-title li:hover{background:#1588d9;border:1px solid #aaa;color:#fff;}
 .ul-sort-title li:last-child{border-right:1px solid #ddd;}
-.table-list{_width:2000px;margin:0 auto;}
+.table-other-info{position:absolute;right:4px;top:0;color:#666;font-size:12px;}
+.table-other-info dt,.table-other-info dd{margin:0;padding:0;display:inline;}
+.table-other-info dt{margin-left:4px;}
+.table-list{margin:0 auto;}
 table{border-collapse:collapse;}
 table caption{text-align:left;background-color:LightGreen;line-height:2em;font-size:14px;font-weight:bold;border:1px solid #985454;padding:10px;}
 table th{text-align:left;font-weight:bold;height:26px;line-height:25px;font-size:13px;border:1px solid #ddd;background:#f0f0f0;padding:5px;}
@@ -277,8 +283,9 @@ table td{height:25px;font-size:12px;border:1px solid #ddd;padding:5px;word-break
 .fix-category ul li a:hover{color:#fff;}
 .fix-category ul li .category-table-name{display:none;padding: 5px 0 5px 22px;color:#1a407b;text-decoration:none;word-break:break-all;font-size:13px;}
 .fix-category ul li:hover .category-table-name{display:block;color:#fff;}
+.fix-category-handle-bar{z-index:100;}
 .fix-category-handle-bar-off .lap-ul{left:0}
-.lap-ul{display:inline-block;width:12px;height:35px;background:rgba(12,137,42,0.43);border-bottom-right-radius:5px;border-top-right-radius:5px;position:fixed;top:50%;left:300px;cursor:pointer;border:1px solid rgba(31,199,58,0.43);font-size:12px;font-weight:normal;line-height:35px;text-align:center;}
+.lap-ul{display:inline-block;width:12px;height:35px;background:rgba(12,137,42,0.43);border-bottom-right-radius:5px;border-top-right-radius:5px;position:fixed;top:50%;left:300px;cursor:pointer;border:1px solid rgba(31,199,58,0.43);font-size:12px;font-weight:normal;line-height:35px;text-align:center;z-index:100;}
 .fix-category::-webkit-scrollbar-track{-webkit-box-shadow:inset 0 0 6px rgba(0,0,0,0.3);-webkit-border-radius:10px;border-radius:10px}
 .fix-category::-webkit-scrollbar{width:6px;height:5px}
 .fix-category::-webkit-scrollbar-thumb{-webkit-border-radius:10px;border-radius:10px;background:rgba(231,178,13,0.31);-webkit-box-shadow:inset 0 0 6px rgba(231,178,13,0.31)}
@@ -503,6 +510,14 @@ label.label-checkbox{width:auto;padding-left:100px;cursor:pointer}
                                     <li class="active"><span>自然结构</span></li>
                                     <li><span>字段排序</span></li>
                                 </ul>
+                                <dl class="table-other-info">
+                                    <dt>创建于：</dt>
+                                    <dd><?php echo $v[0]['createTime']?></dd>
+                                    <?php if(!empty($v[0]['updateTime'])){?>
+                                        <dt>更新于：</dt>
+                                        <dd><?php echo $v[0]['updateTime']?></dd>
+                                    <?php }?>
+                                </dl>
                                 <table>
                                     <thead>
                                         <tr>
@@ -682,6 +697,7 @@ label.label-checkbox{width:auto;padding-left:100px;cursor:pointer}
                 };
                 // Tab切换
                 var ul_arr = table_list.getElementsByTagName('ul');
+                var dl_arr = table_list.getElementsByTagName('dl');
                 for (i = 0, ul_arr_length = ul_arr.length; i < ul_arr_length; i++) {
                     var li_arr = ul_arr[i].getElementsByTagName('li');
                     for(var j = 0;j<li_arr.length;j++){
@@ -712,6 +728,7 @@ label.label-checkbox{width:auto;padding-left:100px;cursor:pointer}
                     if(this.className == 'btn btn-tight hide-tab-already'){
                         for (i = 0, ul_arr_length = ul_arr.length; i < ul_arr_length; i++) {
                             ul_arr[i].style.display = 'block';
+                            dl_arr[i].style.display = 'block';
                         }
                         this.className = 'btn btn-tight hide-tab';
                         this.innerHTML = '隐藏排序tab';
@@ -720,6 +737,7 @@ label.label-checkbox{width:auto;padding-left:100px;cursor:pointer}
                     if(this.className == 'btn btn-tight hide-tab'){
                         for (i = 0, ul_arr_length = ul_arr.length; i < ul_arr_length; i++) {
                             ul_arr[i].style.display = 'none';
+                            dl_arr[i].style.display = 'none';
                         }
                         this.className = 'btn btn-tight hide-tab-already';
                         this.innerHTML = '显示排序tab';
