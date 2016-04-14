@@ -233,7 +233,7 @@ a.change-db{color:#fff;}
 .connect-info:hover{background-color:#ccc;}
 .toggle-show{position:relative;}
 .toggle-show:hover .toggle-show-info-block{display:block;}
-.toggle-show-info-block{position:absolute;right:0;font-size:13px;background-color:#eee;padding-top:6px;display:none;}
+.toggle-show-info-block{position:absolute;right:0;font-size:13px;background-color:#eee;padding-top:6px;display:none;overflow-y:auto;max-height:400px;}
 .toggle-show-info-block a{color:#2a28d2}
 .toggle-show-info-block p{padding:6px 16px;margin:0;white-space:nowrap}
 .toggle-show-info-block p span{display:inline-block;vertical-align:top;}
