@@ -1,0 +1,776 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "配送服务化接口（项目负责人：房磊）",
+        "description": "",
+        "version": "1.0.0"
+    },
+    "schemes": [
+        "http"
+    ],
+    "consumes": [
+        "application/json"
+    ],
+    "produces": [
+        "application/json"
+    ],
+    "paths": {
+        "/driverMobile/getCRMInfoGroupByArea": {
+            "post": {
+                "tags": [
+                    "distribute"
+                ],
+                "summary": "根据城市查询区域下门店及司机统计信息",
+                "description": "<html>接口开发人:方刚<br>开发场景(内部接口):司机CrmApp对接接口<br></html> ",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "cityId",
+                        "in": "query",
+                        "description": "城市ID",
+                        "required": true,
+                        "type": "integer",
+                        "default": "1"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回结果",
+                        "schema": {
+                            "$ref": "#/definitions/CRMInfoGroupByAreaR"
+                        }
+                    }
+                }
+            }
+        },
+        "/driverMobile/getDriverCompanyInfoByArea": {
+            "post": {
+                "tags": [
+                    "distribute"
+                ],
+                "summary": "根据区域信息查询司机与门店的关系列表",
+                "description": "<html>接口开发人:方刚<br>开发场景(内部接口):司机CrmApp对接接口<br></html> ",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "cityId",
+                        "in": "query",
+                        "description": "城市ID",
+                        "required": true,
+                        "type": "integer",
+                        "default": "1"
+                    },
+                    {
+                        "name": "areaId",
+                        "in": "query",
+                        "description": "区域ID",
+                        "required": true,
+                        "type": "integer",
+                        "default": "1"
+                    },
+                    {
+                        "name": "pageNumber",
+                        "in": "query",
+                        "description": "第几页",
+                        "required": false,
+                        "type": "integer",
+                        "default": "1"
+                    },
+                    {
+                        "name": "pageSize",
+                        "in": "query",
+                        "description": "分页大小",
+                        "required": false,
+                        "type": "integer",
+                        "default": "1"
+                    },
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "description": "搜索词，司机姓名",
+                        "required": false,
+                        "type": "string",
+                        "default": "1"
+                    },
+                    {
+                        "name": "orderBy",
+                        "in": "query",
+                        "description": "排序标志，name-拼音排序，workCount出车次数，companyCount-绑定商户数",
+                        "required": false,
+                        "type": "string",
+                        "default": "name"
+                    },
+                    {
+                        "name": "orderType",
+                        "in": "query",
+                        "description": "排序规则，DESC-降序，ASC-升序",
+                        "required": false,
+                        "type": "string",
+                        "default": "DESC"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回值",
+                        "schema": {
+                            "$ref": "#/definitions/GetDriverCompanyInfoByAreaR"
+                        }
+                    }
+                }
+            }
+        },
+        "/driverMobile/getCompanyInfoByDriver": {
+            "post": {
+                "tags": [
+                    "distribute"
+                ],
+                "summary": "调整司机与商户绑定页面接口",
+                "description": "<html>接口开发人:方刚<br>开发场景(内部接口):司机CrmApp对接接口<br></html> ",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "areaId",
+                        "in": "query",
+                        "description": "区域ID",
+                        "required": true,
+                        "type": "integer",
+                        "default": "1"
+                    },
+                    {
+                        "name": "pageNumber",
+                        "in": "query",
+                        "description": "第几页",
+                        "required": false,
+                        "type": "integer",
+                        "default": "1"
+                    },
+                    {
+                        "name": "pageSize",
+                        "in": "query",
+                        "description": "分页大小",
+                        "required": false,
+                        "type": "integer",
+                        "default": "1"
+                    },
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "description": "搜素关键词，商户名或商户ID",
+                        "required": false,
+                        "type": "string",
+                        "default": "1"
+                    },
+                    {
+                        "name": "status",
+                        "in": "query",
+                        "description": "商户绑定状态，可以为0-未分配，1-已分配，2-审核中",
+                        "required": false,
+                        "type": "integer",
+                        "default": "1"
+                    },
+                    {
+                        "name": "level",
+                        "in": "query",
+                        "description": "商户等级",
+                        "required": false,
+                        "type": "integer",
+                        "default": "1"
+                    },
+                    {
+                        "name": "driverId",
+                        "in": "query",
+                        "description": "筛选司机ID",
+                        "required": false,
+                        "type": "integer",
+                        "default": "1"
+                    },
+                    {
+                        "name": "orderBy",
+                        "in": "query",
+                        "description": "排序标志，name-拼音排序，match-匹配度排序，level-等级排序",
+                        "required": false,
+                        "type": "string",
+                        "default": "name"
+                    },
+                    {
+                        "name": "orderType",
+                        "in": "query",
+                        "description": "排序规则，DESC-降序，ASC-升序",
+                        "required": false,
+                        "type": "string",
+                        "default": "DESC"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回值",
+                        "schema": {
+                            "$ref": "#/definitions/GetCompanyInfoByDriverR"
+                        }
+                    }
+                }
+            }
+        },
+        "/driverMobile/receiveChangeCompanyDriver": {
+            "post": {
+                "tags": [
+                    "distribute"
+                ],
+                "summary": "司机CRM班长提交商户绑定司机信息",
+                "description": "<html>接口开发人:方刚<br>开发场景(内部接口):司机CrmApp对接接口<br></html> ",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "driverId",
+                        "in": "query",
+                        "description": "操作人司机ID，必须要班长以上操作权限",
+                        "required": true,
+                        "type": "integer",
+                        "default": "1"
+                    },
+                    {
+                        "name": "newDriverId",
+                        "in": "query",
+                        "description": "新绑定的司机ID",
+                        "required": false,
+                        "type": "integer",
+                        "default": "3"
+                    },
+                    {
+                        "name": "companyIdList",
+                        "in": "query",
+                        "description": "欲被绑定的门店ID列表，多个用逗号分隔",
+                        "required": false,
+                        "type": "string",
+                        "default": "1,2"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回值",
+                        "schema": {
+                            "$ref": "#/definitions/GetCompanyInfoByDriverR"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "GetCompanyInfoByDriverR": {
+            "type": "object",
+            "properties": {
+                "ret": {
+                    "type": "integer",
+                    "description": "返回码0错误，1正常"
+                },
+                "data": {
+                    "type": "object",
+                    "description": "返回状态",
+                    "properties": {
+                        "crmCompanyWithDriver": {
+                            "type": "array",
+                            "description": "司机绑定商户信息列表",
+                            "items": {
+                                "$ref": "#/definitions/GetCompanyInfoByDriver"
+                            }
+                        },
+                        "filter": {
+                            "type": "array",
+                            "description": "筛选条件",
+                            "items": {
+                                "type": "object",
+                                "description": "一个筛选项",
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "description": "筛选名称"
+                                    },
+                                    "title": {
+                                        "type": "string",
+                                        "description": "筛选标题"
+                                    },
+                                    "list": {
+                                        "type": "array",
+                                        "description": "筛选列表",
+                                        "items": {
+                                            "type": "object",
+                                            "description": "筛选值",
+                                            "properties": {
+                                                "name": {
+                                                    "type": "integer",
+                                                    "description": "显示数"
+                                                },
+                                                "value": {
+                                                    "type": "integer",
+                                                    "description": "筛选值"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "totalCompany": {
+                            "type": "integer",
+                            "description": "门店总数量"
+                        }
+                    }
+                },
+                "errorCode": {
+                    "type": "integer",
+                    "description": "返回状态码"
+                },
+                "message": {
+                    "type": "string",
+                    "description": "返回消息"
+                }
+            }
+        },
+        "GetCompanyInfoByDriver": {
+            "type": "object",
+            "properties": {
+                "companyId": {
+                    "type": "integer",
+                    "description": "门店ID"
+                },
+                "companyName": {
+                    "type": "string",
+                    "description": "门店名称"
+                },
+                "level": {
+                    "type": "integer",
+                    "description": "等级"
+                },
+                "address": {
+                    "type": "string",
+                    "description": "联系地址"
+                },
+                "contactUser": {
+                    "type": "string",
+                    "description": "联系人"
+                },
+                "contactPhone": {
+                    "type": "integer",
+                    "description": "联系电话"
+                },
+                "confirmedStatus": {
+                    "type": "integer",
+                    "description": "审核状态，0-待审核，1-已确认"
+                }
+            }
+        },
+        "GetCompanyInfoByDriverFilter": {
+            "type": "object",
+            "description": "司机绑定商户信息筛选条件",
+            "properties": {
+                "customerStatus": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/GetCompanyInfoByDriverFilterOne"
+                    }
+                },
+                "customerLevel": {
+                    "type": "integer",
+                    "description": "门店ID"
+                },
+                "driverList": {
+                    "type": "integer",
+                    "description": "门店ID"
+                }
+            }
+        },
+        "GetCompanyInfoByDriverFilterOne": {
+            "type": "object",
+            "description": "筛选条件",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "description": "筛选名称"
+                },
+                "title": {
+                    "type": "string",
+                    "description": "筛选标题"
+                },
+                "list": {
+                    "type": "array",
+                    "description": "筛选列表",
+                    "items": {
+                        "type": "object",
+                        "description": "筛选值",
+                        "properties": {
+                            "name": {
+                                "type": "integer",
+                                "description": "显示数"
+                            },
+                            "value": {
+                                "type": "integer",
+                                "description": "筛选值"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "GetDriverCompanyInfoByAreaR": {
+            "type": "object",
+            "properties": {
+                "ret": {
+                    "type": "integer",
+                    "description": "返回码0错误，1正常"
+                },
+                "data": {
+                    "type": "object",
+                    "description": "返回状态",
+                    "properties": {
+                        "crmDriverList": {
+                            "type": "array",
+                            "description": "区域下司机与商户信息列表",
+                            "items": {
+                                "$ref": "#/definitions/GetDriverCompanyInfoByArea"
+                            }
+                        },
+                        "totalDriver": {
+                            "type": "integer",
+                            "description": "司机总数量"
+                        }
+                    }
+                },
+                "errorCode": {
+                    "type": "integer",
+                    "description": "返回状态码"
+                },
+                "message": {
+                    "type": "string",
+                    "description": "返回消息"
+                }
+            }
+        },
+        "GetDriverCompanyInfoByArea": {
+            "type": "object",
+            "properties": {
+                "driverId": {
+                    "type": "integer",
+                    "description": "司机ID"
+                },
+                "driverName": {
+                    "type": "string",
+                    "description": "司机姓名"
+                },
+                "phone": {
+                    "type": "string",
+                    "description": "司机电话"
+                },
+                "carGroupId": {
+                    "type": "integer",
+                    "description": "线路ID"
+                },
+                "carGroupName": {
+                    "type": "string",
+                    "description": "线路名称"
+                },
+                "confirmedCompanyCount": {
+                    "type": "integer",
+                    "description": "绑定商户数"
+                },
+                "unconfirmedCompanyCount": {
+                    "type": "integer",
+                    "description": "待审核商户数"
+                },
+                "totalWorkCount": {
+                    "type": "integer",
+                    "description": "出车次数"
+                }
+            }
+        },
+        "CRMInfoGroupByAreaR": {
+            "type": "object",
+            "properties": {
+                "ret": {
+                    "type": "integer",
+                    "description": "返回码0错误，1正常"
+                },
+                "data": {
+                    "type": "object",
+                    "description": "返回状态",
+                    "properties": {
+                        "crmRegionList": {
+                            "type": "array",
+                            "description": "区域信息列表",
+                            "items": {
+                                "$ref": "#/definitions/CRMInfoGroupByArea"
+                            }
+                        }
+                    }
+                },
+                "errorCode": {
+                    "type": "integer",
+                    "description": "返回状态码"
+                },
+                "message": {
+                    "type": "string",
+                    "description": "返回消息"
+                }
+            }
+        },
+        "CRMInfoGroupByArea": {
+            "type": "object",
+            "properties": {
+                "areaId": {
+                    "type": "integer",
+                    "description": "区域ID"
+                },
+                "areaName": {
+                    "type": "string",
+                    "description": "区域名称"
+                },
+                "companyCount": {
+                    "type": "integer",
+                    "description": "商户数"
+                },
+                "driverCount": {
+                    "type": "integer",
+                    "description": "司机数"
+                },
+                "carGroupCount": {
+                    "type": "integer",
+                    "description": "线路数"
+                }
+            }
+        },
+        "RetDoInfo": {
+            "type": "object",
+            "properties": {
+                "ret": {
+                    "type": "integer",
+                    "description": "返回码0错误，1正常"
+                },
+                "data": {
+                    "type": "array",
+                    "description": "配送信息列表",
+                    "items": {
+                        "$ref": "#/definitions/CompanyInfo"
+                    }
+                }
+            }
+        },
+        "ParamsInfo1": {
+            "type": "object",
+            "properties": {
+                "distribute_order_id": {
+                    "type": "integer",
+                    "description": "配送单ID",
+                    "default": 1011919
+                }
+            }
+        },
+        "ParamsInfo3": {
+            "type": "object",
+            "properties": {
+                "distribute_order_id": {
+                    "type": "array",
+                    "description": "配送单ID数组",
+                    "items": {
+                        "$ref": "#/definitions/DoIdArray"
+                    }
+                },
+                "delivery_time": {
+                    "type": "integer",
+                    "description": "配送时间戳",
+                    "default": 1447948800
+                }
+            }
+        },
+        "ParamsInfo2": {
+            "type": "object",
+            "properties": {
+                "start_time": {
+                    "type": "integer",
+                    "description": "查询配送数据的开始时间戳",
+                    "default": 1447986464
+                },
+                "end_time": {
+                    "type": "integer",
+                    "description": "查询配送数据的结束时间戳",
+                    "default": 1448284045
+                },
+                "city_id": {
+                    "type": "integer",
+                    "description": "城市ID",
+                    "default": 1
+                }
+            }
+        },
+        "DoIdArray": {
+            "type": "integer",
+            "description": "配送单ID",
+            "default": 4093204
+        },
+        "OrderItemInfo": {
+            "type": "object",
+            "properties": {
+                "realPriceTotal": {
+                    "type": "float",
+                    "description": "应收总额"
+                },
+                "todayOis": {
+                    "type": "array",
+                    "description": "今日订单详情",
+                    "items": {
+                        "$ref": "#/definitions/GoodsInfo"
+                    }
+                },
+                "historyOis": {
+                    "type": "array",
+                    "description": "隔日退订单详情",
+                    "items": {
+                        "$ref": "#/definitions/GoodsInfo"
+                    }
+                }
+            }
+        },
+        "GoodsInfo": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "description": "名称"
+                },
+                "level": {
+                    "type": "string",
+                    "description": "等级"
+                },
+                "price": {
+                    "type": "float",
+                    "description": "单价"
+                },
+                "price_unit": {
+                    "type": "string",
+                    "description": "单位"
+                },
+                "count": {
+                    "type": "integer",
+                    "description": "下单量"
+                },
+                "real_weight": {
+                    "type": "float",
+                    "description": "分拣量"
+                },
+                "real_price_total": {
+                    "type": "float",
+                    "description": "应收金额"
+                }
+            }
+        },
+        "CompanyInfo": {
+            "type": "object",
+            "properties": {
+                "from_name": {
+                    "type": "string",
+                    "description": "数据来源"
+                },
+                "city_id": {
+                    "type": "integer",
+                    "description": "城市id"
+                },
+                "distribute_order_id": {
+                    "type": "integer",
+                    "description": "配送单id"
+                },
+                "create_time": {
+                    "type": "integer",
+                    "description": "配送单创建时间"
+                },
+                "delivery_time": {
+                    "type": "integer",
+                    "description": "配送时间 戳"
+                },
+                "pay_way": {
+                    "type": "integer",
+                    "description": "支付方式"
+                },
+                "branch_code": {
+                    "type": "string",
+                    "description": "网点编码"
+                },
+                "car_group_id": {
+                    "type": "integer",
+                    "description": "线路Id"
+                },
+                "car_group_name": {
+                    "type": "string",
+                    "description": "线路名称"
+                },
+                "seq": {
+                    "type": "integer",
+                    "description": "配送顺序"
+                },
+                "company_id": {
+                    "type": "integer",
+                    "description": "商户id"
+                },
+                "company_expect_period": {
+                    "type": "string",
+                    "description": "期望送货时间"
+                },
+                "company_name": {
+                    "type": "string",
+                    "description": "商户名称"
+                },
+                "company_address": {
+                    "type": "string",
+                    "description": "商户地址"
+                },
+                "company_coor": {
+                    "type": "string",
+                    "description": "商户坐标"
+                },
+                "company_area_id": {
+                    "type": "integer",
+                    "description": "商圈id"
+                },
+                "custom_name": {
+                    "type": "string",
+                    "description": "商户收货人"
+                },
+                "custom_phone": {
+                    "type": "string",
+                    "description": "收货人电话"
+                },
+                "order_price": {
+                    "type": "string",
+                    "description": "下单金额"
+                }
+            }
+        },
+        "AmountPayableInfo": {
+            "type": "object",
+            "properties": {
+                "4093204": {
+                    "type": "integer",
+                    "description": "应收金额"
+                }
+            }
+        }
+    }
+}
