@@ -107,6 +107,7 @@ if (!isset($_GET['config']) && !isset($_GET['postConfig']) && !isset($_GET['mysq
         }
         mysqli_close ($mysqli_conn);
 
+        $tables = [];
         foreach ($tableOrigin as $index => $item) {
             $tables[] = [
                 'tableName' => $index,
