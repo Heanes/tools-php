@@ -771,9 +771,10 @@ label.label-checkbox{width:auto;padding-left:100px;cursor:pointer}
                  * @time 2016-03-20 21:51:46
                  */
                 var $delete_search_input = document.getElementById('delete_search_input');
+                var $searchInput = document.getElementById('search_input');
                 $delete_search_input.onclick = function(){
-                    if(this.value == '') return false;
-                    this.parentNode.children[1].value = '';
+                    if($searchInput.value == '') return false;
+                    $searchInput.value = '';
                     //原生js主动触发事件
                     var evt = document.createEvent('MouseEvent');
                     evt.initEvent("keyup",true,true);
