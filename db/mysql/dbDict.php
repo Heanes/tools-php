@@ -438,7 +438,7 @@ label.label-checkbox{width:auto;padding-left:100px;cursor:pointer}
                     <div class="handle-block">
                         <div class="toolbar-input-block search-input">
                             <label for="search_input" class="toolbar-input-label">输入表名检索：</label>
-                            <input type="text" name="search_input" id="search_input" class="toolbar-input" placeholder="filter">
+                            <input type="text" name="search_input" id="search_input" class="toolbar-input" placeholder="search (table name only)">
                             <span id="search_result_summary" class="search-result-summary">共<?php echo isset($total_tables) ? $total_tables : 0;?>个表</span>
                             <button class="delete-all-input" id="delete_search_input">X</button>
                         </div>
