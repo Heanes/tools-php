@@ -345,6 +345,24 @@ label.label-checkbox{width:auto;padding-left:100px;cursor:pointer}
             <div class="data-form-block">
                 <div class="input-row">
                     <div class="input-field">
+                        <label for="db_server">数据库主机</label>
+                        <input type="text" name="db_server" id="db_server" value="<?php echo isset($tmpConfig['db_server'])?$tmpConfig['db_server']:'192.168.1.160';?>" class="normal-input" title="请输入数据库主机" placeholder="localhost" required />
+                    </div>
+                    <div class="input-tips">
+                        <span class="tips">连接地址，如localhost、IP地址</span>
+                    </div>
+                </div>
+                <div class="input-row">
+                    <div class="input-field">
+                        <label for="db_port">端口</label>
+                        <input type="text" name="db_port" id="db_port" value="<?php echo isset($tmpConfig['db_port'])?$tmpConfig['db_port']:'3306';?>" class="normal-input" title="请输入端口" placeholder="请输入端口" required />
+                    </div>
+                    <div class="input-tips">
+                        <span class="tips">数据库连接什么端口？</span>
+                    </div>
+                </div>
+                <div class="input-row">
+                    <div class="input-field">
                         <label for="db_database">数据库名</label>
                         <input type="text" name="db_database" id="db_database" value="<?php echo isset($tmpConfig['db_database'])?$tmpConfig['db_database']:'tmc';?>" class="normal-input" title="请输入数据库名" placeholder="请输入数据库名" required />
                     </div>
@@ -374,24 +392,6 @@ label.label-checkbox{width:auto;padding-left:100px;cursor:pointer}
                     </div>
                     <div class="input-tips">
                         <span class="tips">数据库密码</span>
-                    </div>
-                </div>
-                <div class="input-row">
-                    <div class="input-field">
-                        <label for="db_server">数据库主机</label>
-                        <input type="text" name="db_server" id="db_server" value="<?php echo isset($tmpConfig['db_server'])?$tmpConfig['db_server']:'192.168.1.160';?>" class="normal-input" title="请输入数据库主机" placeholder="localhost" required />
-                    </div>
-                    <div class="input-tips">
-                        <span class="tips">连接地址，如localhost、IP地址</span>
-                    </div>
-                </div>
-                <div class="input-row">
-                    <div class="input-field">
-                        <label for="db_port">端口</label>
-                        <input type="text" name="db_port" id="db_port" value="<?php echo isset($tmpConfig['db_port'])?$tmpConfig['db_port']:'3306';?>" class="normal-input" title="请输入端口" placeholder="请输入端口" required />
-                    </div>
-                    <div class="input-tips">
-                        <span class="tips">数据库连接什么端口？</span>
                     </div>
                 </div>
                 <div class="input-row">
