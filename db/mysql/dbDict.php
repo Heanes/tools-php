@@ -219,7 +219,7 @@ body,td,th {font:14px/1.3 TimesNewRoman,Arial,Verdana,tahoma,Helvetica,sans-seri
 .toolbar-input-block .toolbar-input{width:280px;height:36px;margin:0 8px;}
 .toolbar-input-block.search-input{padding:0 4px;position:relative}
 .search-result-summary{position:absolute;right:40px;top:2px;font-size:13px;color:#999;}
-.delete-all-input{position:absolute;right:16px;top:12px;width:16px;height:16px;background: #bbb;color:#fff;font-weight:600;border:none;border-radius:50%;padding:0;font-size:12px}
+.delete-all-input{position:absolute;right:16px;top:12px;width:16px;height:16px;background: #bbb;color:#fff;font-weight:600;border:none;border-radius:50%;padding:0;font-size:12px;cursor:pointer;}
 .delete-all-input:hover{background-color:#e69691}
 .change-db{background-color:#1588d9;border-color:#46b8da;color:#fff;margin-bottom:0;font-size:14px;font-weight:400;}
 a.change-db{color:#fff;}
