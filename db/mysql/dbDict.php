@@ -105,7 +105,7 @@ if (!isset($_GET['config']) && !isset($_GET['postConfig']) && !isset($_GET['mysq
         while ($row = mysqli_fetch_assoc ($table_result)) {
             $tableOrigin[$row['tableName']][] = $row;
         }
-        mysqli_close ($mysqli_conn);
+        mysqli_free_result($table_result);
 
         $tables = [];
         foreach ($tableOrigin as $index => $item) {
@@ -117,6 +117,16 @@ if (!isset($_GET['config']) && !isset($_GET['postConfig']) && !isset($_GET['mysq
                 'updateTime' => $item[0]['updateTime']
             ];
         }
+        // 显示show create table
+        foreach ($tables as $index => &$table) {
+            $sqlShowCreateTable = 'SHOW CREATE TABLE `'.$_CFG['_db_config']['db_database'].'`.`'. $table['tableName'].'`';
+            $showCreateResult = mysqli_query ($mysqli_conn, $sqlShowCreateTable);
+            $row = mysqli_fetch_row($showCreateResult);
+            $table['createSql'] = $row[1];
+
+        }
+        mysqli_close ($mysqli_conn);
+
         if(isset($_GET['json'])){
             echo json_encode($tables);
             return true;
@@ -252,7 +262,7 @@ a.change-db{color:#fff;}
 ul.ul-sort-title,ul.ul-sort-title li{list-style:none;}
 .ul-sort-title li{display:inline-block;background:#fff;padding:10px 20px;border:1px solid #ddd;border-right:0;color:#333;cursor:pointer;font-size:13px;}
 .ul-sort-title li.active{background:#f0f0f0;border-bottom-color:#f0f0f0;}
-.ul-sort-title li:hover{background:#1588d9;border:1px solid #aaa;color:#fff;}
+.ul-sort-title li:hover{background:#1588d9;border:1px solid #aaa;border-right:0;color:#fff;}
 .ul-sort-title li:last-child{border-right:1px solid #ddd;}
 .table-other-info{position:absolute;right:4px;top:0;color:#666;font-size:12px;}
 .table-other-info dt,.table-other-info dd{margin:0;padding:0;display:inline;}
@@ -273,6 +283,7 @@ table td{height:25px;font-size:12px;border:1px solid #ddd;padding:5px;word-break
 .column-default-value{width:54px;}
 .column-character-set-name{width:54px;}
 .column-collation-name{width:100px;}
+.db-table-create-sql{width:1064px;}
 .fix-category{position:fixed;width:300px;height:100%;overflow:auto;top:0;left:0;background:rgba(241,247,253,0.86);box-shadow:3px 0 6px rgba(0,0,0,.2);-webkit-box-shadow:3px 0 6px rgba(0,0,0,.2);-moz-box-shadow:3px 0 6px rgba(0,0,0,.2);z-index:99;}
 .fix-category:hover{z-index:101;}
 .fix-category-hide{left:-300px;overflow:hidden;background-color:rgba(0,23,255,0.22);cursor:pointer;}
@@ -510,6 +521,7 @@ label.label-checkbox{width:auto;padding-left:100px;cursor:pointer}
                                 <ul class="ul-sort-title">
                                     <li class="active"><span>自然结构</span></li>
                                     <li><span>字段排序</span></li>
+                                    <li><span>建表语句</span></li>
                                 </ul>
                                 <dl class="table-other-info">
                                     <dt>创建于：</dt>
@@ -563,6 +575,18 @@ label.label-checkbox{width:auto;padding-left:100px;cursor:pointer}
                                             <td class="column-collation-name"><?php echo $f['collationName'];?></td>
                                         </tr>
                                     <?php }?>
+                                    </tbody>
+                                </table>
+                                <table style="display:none;">
+                                    <thead>
+                                    <tr>
+                                        <th>建表语句</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td class="db-table-create-sql"><?php echo "<pre>".$v[1]['createSql']."</pre>";?></td>
+                                        </tr>
                                     </tbody>
                                 </table>
                             </div>
