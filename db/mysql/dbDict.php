@@ -1,6 +1,6 @@
 <?php
 /**
- * @doc 生成mysql数据字典
+ * @doc 生成mysql数据字典 @todo 1. 保存多组连接配置，到cookie/localStorage中去; 2. 建表语句高亮
  * @author Heanes
  * @time 2015-08-28 15:20:50
  */
