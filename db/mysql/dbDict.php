@@ -23,7 +23,13 @@ if(isset($_GET['unsetConfig'])){
     }
     return session_destroy() ? true : false;
 }
-$currentTime = date('Y-m-d H:i:s');
+
+function getCurrentTimeStr($format = 'Y-m-d H:i:s'){
+    return date($format);
+}
+date_default_timezone_set('PRC');
+$currentTime = getCurrentTimeStr();
+
 if (!isset($_GET['config']) && !isset($_GET['postConfig']) && !isset($_GET['mysqlConnectError']) && !isset($_GET['deleteSuccess'])) {
     //1，检测session或cookie中是否存有数据库配置
     //1.1 若无，跳转到?config地址，让用户输入数据库配置
