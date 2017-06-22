@@ -23,7 +23,7 @@ if(isset($_GET['unsetConfig'])){
     }
     return session_destroy() ? true : false;
 }
-
+$currentTime = date('Y-m-d H:i:s');
 if (!isset($_GET['config']) && !isset($_GET['postConfig']) && !isset($_GET['mysqlConnectError']) && !isset($_GET['deleteSuccess'])) {
     //1，检测session或cookie中是否存有数据库配置
     //1.1 若无，跳转到?config地址，让用户输入数据库配置
@@ -249,7 +249,7 @@ a.change-db{color:#fff;}
 .toggle-show-info-block a{color:#2a28d2}
 .toggle-show-info-block p{padding:6px 16px;margin:0;white-space:nowrap}
 .toggle-show-info-block p span{display:inline-block;vertical-align:top;}
-.toggle-show-info-block p .config-field{text-align:right;min-width:50px}
+.toggle-show-info-block p .config-field{text-align:right;min-width:70px}
 .toggle-show-info-block p .config-value{color:#2a28d2;}
 .toggle-show-info-block p:hover{background-color:#ccc;}
 .list-content{width:100%;margin:0 auto;padding:20px 0;}
@@ -476,6 +476,7 @@ label.label-checkbox{width:auto;padding-left:100px;cursor:pointer}
                         <div class="toolbar-button-block toggle-show" id="connect_info">
                             <a href="javascript:void(0);" class="btn btn-tight connect-info">连接信息</a>
                             <div class="toggle-show-info-block">
+                                <p><span class="config-field">刷新时间：</span><span class="config-value"><?php echo isset($currentTime)?$currentTime:'';?></span></p>
                                 <p><span class="config-field">数据库：</span><span class="config-value"><?php echo isset($tmpConfig['db_database'])?$tmpConfig['db_database']:'';?></span></p>
                                 <p><span class="config-field">用户：</span><span class="config-value"><?php echo isset($tmpConfig['db_user'])?$tmpConfig['db_user']:'';?></span></p>
                                 <p><span class="config-field">主机：</span><span class="config-value"><?php echo isset($tmpConfig['db_server'])?$tmpConfig['db_server']:'';?></span></p>
