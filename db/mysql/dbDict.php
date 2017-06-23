@@ -133,25 +133,35 @@ if (!isset($_GET['config']) && !isset($_GET['postConfig']) && !isset($_GET['mysq
         }
         mysqli_close ($mysqli_conn);
 
-        if(isset($_GET['json'])){
-            echo json_encode($tables);
-            return true;
-        }
-
         $multiple_tables = [];
-        foreach ($tables as $key => $value) {
-            $multiple_tables[$key][0]=$tables[$key];
+        foreach ($tables as $key => &$value) {
+            // 处理驼峰
+            foreach ($value['columns'] as $index => &$column) {
+                $words = explode('_', trim($column['columnName']));
+                $str = '';
+                foreach ($words as $word) {
+                    $str .= ucfirst($word);
+                }
+                $str = lcfirst($str);
+                $tables[$key]['columns'][$index]['columnNameCamelStyle'] = $str;
+            }
+
+            $multiple_tables[$key]['origin']=$tables[$key];
         }
         // 按列字段排序
         foreach ($tables as $key => $value) {
             array_multisort($tables[$key]['columns']);
         }
         foreach ($tables as $key => $value) {
-            $multiple_tables[$key][1] = $tables[$key];
+            $multiple_tables[$key]['ordered'] = $tables[$key];
         }
         foreach ($multiple_tables as $key => $value) {
             $temp1[] = $multiple_tables[$key][0];
             $temp2[] = $multiple_tables[$key][1];
+        }
+        if(isset($_GET['json'])){
+            echo json_encode($multiple_tables);
+            return true;
         }
         $total_tables = count($multiple_tables);
         $num_width = strlen($total_tables);
@@ -220,11 +230,12 @@ a{text-decoration:none;}
 a:visited{color:inherit;}
 body{padding:0;margin:0;}
 body,td,th {font:14px/1.3 TimesNewRoman,Arial,Verdana,tahoma,Helvetica,sans-serif}
+dl{margin:0;padding:0;}
 ::-webkit-scrollbar-track{box-shadow:inset 0 0 6px rgba(0,0,0,0.3);-webkit-box-shadow:inset 0 0 6px rgba(0,0,0,0.3);-webkit-border-radius:10px;border-radius:10px}
 ::-webkit-scrollbar{width:6px;height:5px}
 ::-webkit-scrollbar-thumb{-webkit-border-radius:10px;border-radius:10px;background:rgba(0,0,0,0.39);}
 pre{padding:0;margin:0;}
-.w-wrap{width:1065px;margin:0 auto;}
+.w-wrap{width:1265px;margin:0 auto;}
 .fixed{position:fixed;}
 .toolbar-block{width:100%;top:0;right:0;height:38px;background-color:rgba(31,31,31,0.73);-webkit-box-shadow:0 3px 6px rgba(0,0,0,.2);-moz-box-shadow:0 3px 6px rgba(0,0,0,.2);box-shadow:0 3px 6px rgba(0,0,0,.2);z-index:100;}
 .toolbar-block-placeholder{height:40px;width:100%;}
@@ -259,11 +270,12 @@ a.change-db{color:#fff;}
 .toggle-show-info-block p .config-value{color:#2a28d2;}
 .toggle-show-info-block p:hover{background-color:#ccc;}
 .list-content{width:100%;margin:0 auto;padding:20px 0;}
-.table-name-title-block{padding:10px 0;}
+.table-name-title-block{position:relative;padding:10px 0;}
 .table-name-title-block .table-name-title{margin:0;background-color:#f8f8f8;padding:0 4px;cursor:pointer;}
 .table-name-title-block .table-name-title.lap-off{border-bottom:1px solid #ddd;}
 .table-name-title-block .table-name-title .lap-icon{padding:0 10px;}
 .table-name-title-block .table-name-title .table-name-anchor{display:block;padding:10px 0;}
+.table-name-title-block .table-other-info{top:50%;margin-top:-12px;}
 .table-one-content{position:relative;}
 .ul-sort-title{margin:0 0 -1px;padding:0;font-size:0;z-index:3;}
 ul.ul-sort-title,ul.ul-sort-title li{list-style:none;}
@@ -271,7 +283,7 @@ ul.ul-sort-title,ul.ul-sort-title li{list-style:none;}
 .ul-sort-title li.active{background:#f0f0f0;border-bottom-color:#f0f0f0;}
 .ul-sort-title li:hover{background:#1588d9;border:1px solid #aaa;border-right:0;color:#fff;}
 .ul-sort-title li:last-child{border-right:1px solid #ddd;}
-.table-other-info{position:absolute;right:4px;top:0;color:#666;font-size:12px;}
+.table-other-info{position:absolute;right:4px;top:0;color:#666;font-size:12px;line-height:24px;}
 .table-other-info dt,.table-other-info dd{margin:0;padding:0;display:inline;}
 .table-other-info dt{margin-left:4px;}
 .table-list{margin:0 auto;}
@@ -343,7 +355,7 @@ label.label-checkbox{width:auto;padding-left:100px;cursor:pointer}
 .data-form-block .tips .tips-p{padding:10px 14px;color:#555;font-size:13px;}
 .data-form-block .tips .tips-p.notice-important{background-color:#ffefef;border:1px solid #ffd2d2}
 /* 右下角 */
-.right-bar-block{position:fixed;left:50%;bottom:245px;margin-left:532px;}
+.right-bar-block{position:fixed;left:50%;bottom:245px;margin-left:632px;}
 .right-bar-block .go-to-top{width:20px;border:1px solid #ddd;text-align:center;cursor:pointer;display:none;font-size:13px;padding:6px 0;}
 </style>
 </head>
@@ -501,7 +513,7 @@ label.label-checkbox{width:auto;padding-left:100px;cursor:pointer}
                     <ul>
                         <?php foreach ($multiple_tables as $k => $v) {?>
                             <li>
-                                <a href="#<?php echo $v[0]['tableName']?>"><?php echo str_pad($k+1, $num_width, "0", STR_PAD_LEFT).'. '.$v[0]['tableName']?><span class="category-table-name"><?php echo $v[0]['tableComment']?></span></a>
+                                <a href="#<?php echo $v['origin']['tableName']?>"><?php echo str_pad($k+1, $num_width, "0", STR_PAD_LEFT).'. '.$v['origin']['tableName']?><span class="category-table-name"><?php echo $v['origin']['tableComment']?></span></a>
                             </li>
                         <?php }?>
                     </ul>
@@ -517,13 +529,21 @@ label.label-checkbox{width:auto;padding-left:100px;cursor:pointer}
                         <div class="table-one-block">
                             <div class="table-name-title-block">
                                 <h3 class="table-name-title lap-on">
-                                    <a id="<?php echo $v[0]['tableName'];?>" class="table-name-anchor">
+                                    <a id="<?php echo $v['origin']['tableName'];?>" class="table-name-anchor">
                                         <span class="lap-icon">-</span>
                                         <span class="db-table-index"><?php echo str_pad($k+1, $num_width, "0", STR_PAD_LEFT)?>.</span>
-                                        <span class="db-table-name"><?php echo $v[0]['tableName']?></span>
-                                        <span class="db-table-comment"><?php echo $v[0]['tableComment']?></span>
+                                        <span class="db-table-name"><?php echo $v['origin']['tableName']?></span>
+                                        <span class="db-table-comment"><?php echo $v['origin']['tableComment']?></span>
                                     </a>
                                 </h3>
+                                <dl class="table-other-info">
+                                    <dt>创建于：</dt>
+                                    <dd><?php echo $v['origin']['createTime']?></dd>
+                                    <?php if(!empty($v['origin']['updateTime'])){?>
+                                        <dt>更新于：</dt>
+                                        <dd><?php echo $v['origin']['updateTime']?></dd>
+                                    <?php }?>
+                                </dl>
                             </div>
                             <div class="table-one-content">
                                 <ul class="ul-sort-title">
@@ -531,25 +551,26 @@ label.label-checkbox{width:auto;padding-left:100px;cursor:pointer}
                                     <li><span>字段排序</span></li>
                                     <li><span>建表语句</span></li>
                                 </ul>
-                                <dl class="table-other-info">
+                                <!--<dl class="table-other-info">
                                     <dt>创建于：</dt>
-                                    <dd><?php echo $v[0]['createTime']?></dd>
-                                    <?php if(!empty($v[0]['updateTime'])){?>
+                                    <dd><?php /*echo $v['origin']['createTime']*/?></dd>
+                                    <?php /*if(!empty($v['origin']['updateTime'])){*/?>
                                         <dt>更新于：</dt>
-                                        <dd><?php echo $v[0]['updateTime']?></dd>
-                                    <?php }?>
-                                </dl>
+                                        <dd><?php /*echo $v['origin']['updateTime']*/?></dd>
+                                    <?php /*}*/?>
+                                </dl>-->
                                 <table>
                                     <thead>
                                         <tr>
-                                            <th>序号</th><th>字段名</th><th>数据类型</th><th>注释</th><th>允许空值</th><th>默认值</th><th>自动递增</th><th>主键</th><th>字符集</th><th>排序规则</th>
+                                            <th>序号</th><th>字段名</th><th>字段名驼峰形式</th><th>数据类型</th><th>注释</th><th>允许空值</th><th>默认值</th><th>自动递增</th><th>主键</th><th>字符集</th><th>排序规则</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                    <?php foreach ($v[0]['columns']as $column_key => $f) {?>
+                                    <?php foreach ($v['origin']['columns']as $column_key => $f) {?>
                                         <tr>
-                                            <td class="column-index"><?php echo str_pad($column_key+1, strlen(count($v[0]['columns'])), "0", STR_PAD_LEFT);?></td>
+                                            <td class="column-index"><?php echo str_pad($column_key+1, strlen(count($v['origin']['columns'])), "0", STR_PAD_LEFT);?></td>
                                             <td class="column-field"><?php echo $f['columnName'];?></td>
+                                            <td class="column-field"><?php echo $f['columnNameCamelStyle'];?></td>
                                             <td class="column-data-type"><?php echo $f['columnType'];?></td>
                                             <td class="column-comment"><?php echo $f['columnComment'];?></td>
                                             <td class="column-can-be-null"><?php echo $f['isNullable'];?></td>
@@ -565,14 +586,15 @@ label.label-checkbox{width:auto;padding-left:100px;cursor:pointer}
                                 <table style="display:none;">
                                     <thead>
                                     <tr>
-                                        <th>序号</th><th>字段名</th><th>数据类型</th><th>注释</th><th>允许空值</th><th>默认值</th><th>自动递增</th><th>主键</th><th>字符集</th><th>排序规则</th>
+                                        <th>序号</th><th>字段名</th><th>字段名驼峰形式</th><th>数据类型</th><th>注释</th><th>允许空值</th><th>默认值</th><th>自动递增</th><th>主键</th><th>字符集</th><th>排序规则</th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <?php foreach ($v[1]['columns']as $column_key => $f) {?>
+                                    <?php foreach ($v['ordered']['columns']as $column_key => $f) {?>
                                         <tr>
-                                            <td class="column-index"><?php echo str_pad($column_key+1, strlen(count($v[0]['columns'])), "0", STR_PAD_LEFT);?></td>
+                                            <td class="column-index"><?php echo str_pad($column_key+1, strlen(count($v['origin']['columns'])), "0", STR_PAD_LEFT);?></td>
                                             <td class="column-field"><?php echo $f['columnName'];?></td>
+                                            <td class="column-field"><?php echo $f['columnNameCamelStyle'];?></td>
                                             <td class="column-data-type"><?php echo $f['columnType'];?></td>
                                             <td class="column-comment"><?php echo $f['columnComment'];?></td>
                                             <td class="column-can-be-null"><?php echo $f['isNullable'];?></td>
@@ -593,7 +615,7 @@ label.label-checkbox{width:auto;padding-left:100px;cursor:pointer}
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td class="db-table-create-sql"><?php echo "<pre>".$v[1]['createSql']."</pre>";?></td>
+                                            <td class="db-table-create-sql"><?php echo "<pre>".$v['ordered']['createSql']."</pre>";?></td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -611,8 +633,8 @@ label.label-checkbox{width:auto;padding-left:100px;cursor:pointer}
                 // 键入字符检索表
                 var $table_list_arr = [], $table_list_comment_arr = [];
                 <?php foreach ($multiple_tables as $k => $v) {?>
-                $table_list_arr[<?php echo $k;?>] = "<?php echo $v[0]['tableName'];?>";
-                $table_list_comment_arr[<?php echo $k;?>] = "<?php echo $v[0]['tableComment'];?>";
+                $table_list_arr[<?php echo $k;?>] = "<?php echo $v['origin']['tableName'];?>";
+                $table_list_comment_arr[<?php echo $k;?>] = "<?php echo $v['origin']['tableComment'];?>";
                 <?php }?>
                 var $search_input = document.getElementById('search_input');
                 $search_input.onkeyup = function(){
