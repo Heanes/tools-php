@@ -292,6 +292,7 @@ table caption{text-align:left;background-color:LightGreen;line-height:2em;font-s
 table th{text-align:left;font-weight:bold;height:26px;line-height:25px;font-size:13px;border:1px solid #ddd;background:#f0f0f0;padding:5px;}
 table td{height:25px;font-size:12px;border:1px solid #ddd;padding:5px;word-break:break-all;color:#333;}
 .db-table-name{padding:0 6px;}
+table.table-info tbody tr:hover{background-color:#f7f7f7;}
 .column-index{width:40px;}
 .column-field{width:200px;}
 .column-data-type{width:130px;}
@@ -559,7 +560,7 @@ label.label-checkbox{width:auto;padding-left:100px;cursor:pointer}
                                         <dd><?php /*echo $v['origin']['updateTime']*/?></dd>
                                     <?php /*}*/?>
                                 </dl>-->
-                                <table>
+                                <table class="table-info">
                                     <thead>
                                         <tr>
                                             <th>序号</th><th>字段名</th><th>字段名驼峰形式</th><th>数据类型</th><th>注释</th><th>允许空值</th><th>默认值</th><th>自动递增</th><th>主键</th><th>字符集</th><th>排序规则</th>
@@ -583,7 +584,7 @@ label.label-checkbox{width:auto;padding-left:100px;cursor:pointer}
                                     <?php }?>
                                     </tbody>
                                 </table>
-                                <table style="display:none;">
+                                <table class="table-info" style="display:none;">
                                     <thead>
                                     <tr>
                                         <th>序号</th><th>字段名</th><th>字段名驼峰形式</th><th>数据类型</th><th>注释</th><th>允许空值</th><th>默认值</th><th>自动递增</th><th>主键</th><th>字符集</th><th>排序规则</th>
@@ -607,7 +608,7 @@ label.label-checkbox{width:auto;padding-left:100px;cursor:pointer}
                                     <?php }?>
                                     </tbody>
                                 </table>
-                                <table style="display:none;">
+                                <table class="table-info" style="display:none;">
                                     <thead>
                                     <tr>
                                         <th>建表语句</th>
