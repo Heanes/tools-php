@@ -538,7 +538,7 @@ label.label-checkbox{width:auto;padding-left:100px;cursor:pointer}
                                     </a>
                                 </h3>
                                 <dl class="table-other-info">
-                                    <dt>创建于：</dt>
+                                    <dt>最后更新于：</dt>
                                     <dd><?php echo $v['origin']['createTime']?></dd>
                                     <?php if(!empty($v['origin']['updateTime'])){?>
                                         <dt>更新于：</dt>
@@ -553,7 +553,7 @@ label.label-checkbox{width:auto;padding-left:100px;cursor:pointer}
                                     <li><span>建表语句</span></li>
                                 </ul>
                                 <!--<dl class="table-other-info">
-                                    <dt>创建于：</dt>
+                                    <dt>最后更新于：</dt>
                                     <dd><?php /*echo $v['origin']['createTime']*/?></dd>
                                     <?php /*if(!empty($v['origin']['updateTime'])){*/?>
                                         <dt>更新于：</dt>
