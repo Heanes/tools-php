@@ -469,23 +469,23 @@ label.label-checkbox{width:auto;padding-left:100px;cursor:pointer}
                     <div class="handle-block">
                         <div class="toolbar-input-block search-input">
                             <label for="search_input" class="toolbar-input-label">输入表名检索：</label>
-                            <input type="text" name="search_input" id="search_input" class="toolbar-input" placeholder="search (table name only)">
+                            <input type="text" name="search_input" id="search_input" class="toolbar-input" placeholder="search (table name only)" title="输入表名快速查找">
                             <span id="search_result_summary" class="search-result-summary">共<?php echo isset($total_tables) ? $total_tables : 0;?>个表</span>
                             <button class="delete-all-input" id="delete_search_input">X</button>
                         </div>
                     </div>
                     <div class="absolute-block">
                         <div class="toolbar-button-block">
-                            <a href="javascript:void(0);" class="btn btn-tight unset-config" id="unset_config">安全删除配置信息</a>
+                            <a href="javascript:void(0);" class="btn btn-tight unset-config" id="unset_config" title="清除cookie及session中保存的连接信息">安全删除配置信息</a>
                         </div>
                         <div class="toolbar-button-block">
-                            <a href="javascript:void(0);" class="btn btn-tight lap-table" id="lap_table">折叠内容</a>
+                            <a href="javascript:void(0);" class="btn btn-tight lap-table" id="lap_table" title="折叠字典列表，仅展示表名概览">折叠内容</a>
                         </div>
                         <div class="toolbar-button-block">
-                            <a href="javascript:void(0);" class="btn btn-tight hide-tab" id="hide_tab">隐藏排序tab</a>
+                            <a href="javascript:void(0);" class="btn btn-tight hide-tab" id="hide_tab" title="每个字典只显示一个table">隐藏排序tab</a>
                         </div>
                         <div class="toolbar-button-block toggle-show">
-                            <a href="?config" class="btn btn-tight change-db" title="点击可以输入配置">切换数据库</a>
+                            <a href="?config" class="btn btn-tight change-db" title="点击可以输入配置" title="快速切换及重新填写配置切换连接">切换数据库</a>
                             <div class="toggle-show-info-block">
                                 <?php foreach ($databases as $arr => $db) {?>
                                 <a href="<?php echo $baseUrl . '?db=' . $db;?>"><p><?php echo $db?></p></a>
@@ -493,7 +493,7 @@ label.label-checkbox{width:auto;padding-left:100px;cursor:pointer}
                             </div>
                         </div>
                         <div class="toolbar-button-block toggle-show" id="connect_info">
-                            <a href="javascript:void(0);" class="btn btn-tight connect-info">连接信息</a>
+                            <a href="javascript:void(0);" class="btn btn-tight connect-info" title="本次连接信息">连接信息</a>
                             <div class="toggle-show-info-block">
                                 <p><span class="config-field">刷新时间：</span><span class="config-value"><?php echo isset($currentTime)?$currentTime:'';?></span></p>
                                 <p><span class="config-field">数据库：</span><span class="config-value"><?php echo isset($tmpConfig['db_database'])?$tmpConfig['db_database']:'';?></span></p>
@@ -521,7 +521,7 @@ label.label-checkbox{width:auto;padding-left:100px;cursor:pointer}
                 </div>
             </div>
             <div class="fix-category-handle-bar">
-                <b class="lap-ul" id="lap_ul"><</b>
+                <b class="lap-ul" id="lap_ul" title="点击折起左侧目录"><</b>
             </div>
             <div class="list-content">
                 <h2 style="text-align:center;"><?php echo $title;?></h2>
@@ -627,7 +627,7 @@ label.label-checkbox{width:auto;padding-left:100px;cursor:pointer}
             </div>
             <div class="right-bar-block">
                 <div class="right-bar-nav">
-                    <div class="go-to-top" id="go_to_top">回顶部</div>
+                    <div class="go-to-top" id="go_to_top" title="返回页面顶部">回顶部</div>
                 </div>
             </div>
             <script type="text/javascript">
