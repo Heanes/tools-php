@@ -292,6 +292,7 @@ table caption{text-align:left;background-color:LightGreen;line-height:2em;font-s
 table th{text-align:left;font-weight:bold;height:26px;line-height:25px;font-size:13px;border:1px solid #ddd;background:#f0f0f0;padding:5px;}
 table td{height:25px;font-size:12px;border:1px solid #ddd;padding:5px;word-break:break-all;color:#333;}
 .db-table-name{padding:0 6px;}
+table.table-info tbody tr:nth-child(2n){background-color:#fafaff;}
 table.table-info tbody tr:hover{background-color:#f7f7f7;}
 .column-index{width:40px;}
 .column-field{width:200px;}
